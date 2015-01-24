@@ -81,10 +81,12 @@ public class Neil : MonoBehaviour, ITargetable {
 
 	public void PlaceBeacon(Vector3 teleportLocation, Vector3 beaconLocation)
 	{
+		beaconLocation += new Vector3(0, transform.position.y, 0);
 		//teleport to nearest beacon
 		transform.position = teleportLocation;
 		neilControlState = NeilControlStates.PlantingBeacon;
 		//auto walk to beacon spot
+		StopAllCoroutines();
 		StartCoroutine(WalkToWayPoint(beaconLocation));
 		//plant beacon
 		GameObject clone = (GameObject) Instantiate(beacon);
@@ -95,9 +97,11 @@ public class Neil : MonoBehaviour, ITargetable {
 
 	public void WalkToSpot(Vector3 spot)
 	{
+		spot += new Vector3(0, transform.position.y, 0);
 		//move to spot
 		if(neilControlState == NeilControlStates.FreeMove)
 		{
+			StopAllCoroutines();
 			StartCoroutine(WalkToWayPoint(spot));
 		}
 	}

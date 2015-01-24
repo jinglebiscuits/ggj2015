@@ -3,7 +3,7 @@ using System.Collections;
 
 public class NealController : MonoBehaviour {
 
-    public GameObject Neal = null;
+    public GameObject Neil = null;
     private string strHorizontalAxis = "Horizontal";
     private string strVerticalAxis = "Vertical";
     private string strFireButton;
@@ -23,7 +23,7 @@ public class NealController : MonoBehaviour {
         fltMove = Input.GetAxis(strVerticalAxis);
 
         fltNealDirection += fltRotate * Time.deltaTime;
-        Neal.transform.rotation = Quaternion.EulerAngles(0.0f, fltNealDirection, 0.0f);
-        Neal.transform.position += Neal.transform.forward * fltMove * Time.deltaTime;
+        Neil.transform.rotation = Quaternion.EulerAngles(0.0f, fltNealDirection, 0.0f);
+        Neil.transform.position += Neil.transform.forward * fltMove * Time.deltaTime;
 	}
 }
