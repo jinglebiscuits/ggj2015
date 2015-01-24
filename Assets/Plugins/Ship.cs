@@ -37,4 +37,9 @@ public class Ship : MonoBehaviour, ITargetable {
 	{
 		throw new System.NotImplementedException ();
 	}
+
+	public void Refuel(float fuel)
+	{
+		energy += fuel;
+	}
 }

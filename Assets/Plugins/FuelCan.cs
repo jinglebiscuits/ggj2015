@@ -4,6 +4,7 @@ using System.Collections;
 public class FuelCan : MonoBehaviour, ICarryable {
 
 	private bool isBeingCarried;
+	private float fuel;
 
 	// Use this for initialization
 	void Start () {
@@ -21,6 +22,15 @@ public class FuelCan : MonoBehaviour, ICarryable {
 		}
 		set {
 			throw new System.NotImplementedException ();
+		}
+	}
+
+	public float Fuel {
+		get {
+			return this.fuel;
+		}
+		set {
+			fuel = value;
 		}
 	}
 }

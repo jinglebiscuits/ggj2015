@@ -5,6 +5,8 @@ public class Beacon : MonoBehaviour, ITargetable {
 
 	private float health;
 
+	private bool lightOn;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -21,6 +23,15 @@ public class Beacon : MonoBehaviour, ITargetable {
 		}
 		set {
 			throw new System.NotImplementedException ();
+		}
+	}
+
+	public bool LightOn {
+		get {
+			return this.lightOn;
+		}
+		set {
+			lightOn = value;
 		}
 	}
 

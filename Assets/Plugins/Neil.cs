@@ -72,4 +72,41 @@ public class Neil : MonoBehaviour, ITargetable {
 			radarEvent();
 		}
 	}
+
+	public void PlaceBeacon()
+	{
+		//teleport
+
+		//walk
+
+		//place beacon
+	}
+
+	public void WalkToSpot(Vector3 spot)
+	{
+		//move to spot
+	}
+
+	public void ToggleBeacon(Beacon beacon)
+	{
+		beacon.LightOn = !beacon.LightOn;
+	}
+
+	public void ConnectSection(ShipSection section)
+	{
+		section.IsHookedUp = true;
+	}
+
+	public void PickUpFuelCan(FuelCan fuelCan)
+	{
+		fuelCan.IsBeingCarried = true;
+	}
+
+	public void RefuelShip(Ship ship, FuelCan fuelCan)
+	{
+		ship.Refuel(fuelCan.Fuel);
+	}
+
+
+
 }
