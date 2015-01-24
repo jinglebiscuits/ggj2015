@@ -6,20 +6,26 @@ public class Neil : MonoBehaviour, ITargetable {
 
 	private float health;
 	private float movementSpeed;
+	public Vector3 wayPoint;
 	private string state;
 	private List<ICarryable> inventory = new List<ICarryable>();
+	public GameObject beacon;
+	public GameObject nearestBeacon;
+	public NeilStates neilState = NeilStates.InShip;
+	public NeilControlStates neilControlState = NeilControlStates.InShip;
+
 
 	public delegate void MyEventHandler();
 	public event MyEventHandler radarEvent;
 
 	// Use this for initialization
 	void Start () {
-	    
+		movementSpeed = 0.25f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 
 	#region Accessor Methods
@@ -73,18 +79,36 @@ public class Neil : MonoBehaviour, ITargetable {
 		}
 	}
 
-	public void PlaceBeacon()
+	public void PlaceBeacon(Vector3 teleportLocation, Vector3 beaconLocation)
 	{
-		//teleport
+		//teleport to nearest beacon
+		transform.position = teleportLocation;
+		neilControlState = NeilControlStates.PlantingBeacon;
+		//auto walk to beacon spot
+		StartCoroutine(WalkToWayPoint(beaconLocation));
+		//plant beacon
+		GameObject clone = (GameObject) Instantiate(beacon);
 
-		//walk
-
-		//place beacon
+		//change states
+		neilControlState = NeilControlStates.FreeMove;
 	}
 
 	public void WalkToSpot(Vector3 spot)
 	{
 		//move to spot
+		if(neilControlState == NeilControlStates.FreeMove)
+		{
+			StartCoroutine(WalkToWayPoint(spot));
+		}
+	}
+
+	public IEnumerator WalkToWayPoint(Vector3 wayPoint)
+	{
+		while((transform.position - wayPoint).magnitude >= 0.01f)
+		{
+			this.transform.position = Vector3.Lerp(this.transform.position, wayPoint, Time.deltaTime * movementSpeed);
+			yield return new WaitForSeconds(0.01f);
+		}
 	}
 
 	public void ToggleBeacon(Beacon beacon)
@@ -106,7 +130,18 @@ public class Neil : MonoBehaviour, ITargetable {
 	{
 		ship.Refuel(fuelCan.Fuel);
 	}
+}
 
+public enum NeilStates
+{
+	InShip,
+	InLight,
+	InDarkness
+}
 
-
+public enum NeilControlStates
+{
+	InShip,
+	PlantingBeacon,
+	FreeMove
 }
