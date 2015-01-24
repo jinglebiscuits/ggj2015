@@ -3,8 +3,8 @@ using System.Collections;
 
 public class LightSource : MonoBehaviour {
 
-	private float radius;
-	private float intensity;
+	public float radius;
+	public float intensity;
 
 	// Use this for initialization
 	void Start () {
@@ -22,6 +22,7 @@ public class LightSource : MonoBehaviour {
 		}
 		set {
 			radius = value;
+			this.GetComponent<Light>().range = radius;
 		}
 	}
 
@@ -31,6 +32,7 @@ public class LightSource : MonoBehaviour {
 		}
 		set {
 			intensity = value;
+			this.GetComponent<Light>().intensity = intensity;
 		}
 	}
 }
