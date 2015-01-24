@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Beacon : MonoBehaviour, ITargetable {
 
+    public Light light;
 	private float health;
 
 	private bool lightOn;
