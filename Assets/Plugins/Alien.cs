@@ -10,14 +10,18 @@ public class Alien : MonoBehaviour {
     }
 
     public enAlienBehaviors Behavior = enAlienBehaviors.RunAway;
+    public float fltSpeed = 1.0f;
+    public float fltBeaconMinAttackDistance = 1.0f;
+    public float fltLightSafeDistance = 5.0f;
 
     private Neil neil = null;
     private Ship ship = null;
-    private float fltLightSafeDistance = 5.0f;
+    
     private float fltHealth = 100.0f;
     private float fltSunburn = 0.0f;
+    
 
-
+    private GameObject[] beacons = null;
     private GameObject closestBeacon = null;
 
 	/// <summary>
@@ -33,8 +37,18 @@ public class Alien : MonoBehaviour {
 	/// 
 	/// </summary>
 	void Update () {
-	
+        Behave();
 	}
+
+    void OnGUI()
+    {
+        string strDisplay = "";
+        if (beacons != null) strDisplay += "beacons : " + beacons.Length;
+        if (closestBeacon != null) strDisplay += " closestBeacon : " + closestBeacon.transform.position.ToString();
+
+        //GUI.Label(new Rect(0, 0, Screen.width, Screen.height), strDisplay);
+    
+    }
 
     /// <summary>
     /// 
@@ -60,7 +74,9 @@ public class Alien : MonoBehaviour {
     {
         float fltBestDistance = float.MaxValue;
         float fltThisDistance = 0.0f;
-        foreach (GameObject thisBeacon in GameDirector.instance.beacons)
+
+        if (beacons == null) GetBeaconList();
+        foreach (GameObject thisBeacon in beacons)
         {
             fltThisDistance = (thisBeacon.transform.position - gameObject.transform.position).magnitude;
             if (fltThisDistance < fltBestDistance)
@@ -75,17 +91,37 @@ public class Alien : MonoBehaviour {
     /// <summary>
     /// 
     /// </summary>
+    private void GetBeaconList()
+    {
+        beacons = GameObject.FindGameObjectsWithTag(Common.Tags.Beacon);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     private void MoveTowardBeacon()
-    { 
-    
+    {
+        if (closestBeacon != null && (transform.position - closestBeacon.transform.position).magnitude > fltBeaconMinAttackDistance)
+        {
+            transform.position = Vector3.Lerp(transform.position, closestBeacon.transform.position, Time.deltaTime * fltSpeed);
+        }
     }
 
     /// <summary>
     /// 
     /// </summary>
     private void RunAwayFromBeacon()
-    { 
-    
+    {
+        //get the direction of the closest light
+        Vector3 vctRunDirection = (transform.position - closestBeacon.transform.position);
+        //are we a save distance from it?
+        if (vctRunDirection.magnitude < fltLightSafeDistance)
+        { 
+            //we are too close.  run away! run away!
+            vctRunDirection = vctRunDirection.normalized;
+            transform.position += vctRunDirection * Time.deltaTime * fltSpeed;
+        }
+        
     }
 
     /// <summary>
@@ -95,10 +131,14 @@ public class Alien : MonoBehaviour {
     { 
         //iterate through each light source
         float fltThisDistance = 0.0f;
+        float fltIntensity = 0.0f;
+        float fltDamage = 0.0f;
         foreach (GameObject thisBeacon in GameDirector.instance.beacons)
         {
             fltThisDistance = (thisBeacon.transform.position - gameObject.transform.position).magnitude;
-
+            fltIntensity = GetLightIntensity(thisBeacon);
+            fltDamage = fltIntensity / fltThisDistance;
+            fltHealth -= fltDamage * Time.deltaTime;
         }
 
     }
