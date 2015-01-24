@@ -5,8 +5,8 @@ using System.Collections.Generic;
 public class Ship : MonoBehaviour, ITargetable {
 
 	private float health;
-	private List<Beacon> beacons = new List<Beacon>();
-	private LightSource light;
+	public List<GameObject> beacons = new List<GameObject>();
+	public Light light;
 	private float energy;
 	private float energyUsePerSecond;
 	private float maxEnergyUsePerSecond;
