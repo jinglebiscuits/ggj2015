@@ -28,11 +28,25 @@ public class GameDirector : MonoBehaviour {
 				print ("sack");
 				print (hit.point);
 				Debug.DrawLine(ray.origin, hit.point);
-				neil.WalkToSpot(hit.point);
+				if(neil.neilControlState == NeilControlStates.PlantingBeacon)
+				{
+					neil.PlaceBeacon(GetNearestBeaconLocation(hit.point), hit.point);
+				}
+				else if(neil.neilControlState == NeilControlStates.FreeMove)
+				{
+					neil.WalkToSpot(hit.point);
+				}
 			}
 				
 		}
 			
+	}
+
+	public Vector3 GetNearestBeaconLocation(Vector3 beaconPlacement)
+	{
+		Vector3 teleportLocation;
+		teleportLocation = new Vector3(5, 2, 5);
+		return teleportLocation;
 	}
 
 }
