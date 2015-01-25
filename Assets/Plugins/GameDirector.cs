@@ -15,6 +15,7 @@ public class GameDirector : MonoBehaviour {
     public GameObject[] Aliens = null;
     public float fltWaveTime = 15.0f;
     public float fltNextWave = 0;
+    public Light MainLight = null;
    
     /// <summary>
     /// 
@@ -80,6 +81,41 @@ public class GameDirector : MonoBehaviour {
         }
 			
 	}
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void SendPulse()
+    {
+        Debug.Log("Send Pulse");
+        StartCoroutine(StartPulseWave());
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator StartPulseWave()
+    {
+        Debug.Log("turning light up");
+        int intTotal = 10;
+        for (int i = 0; i < intTotal; i++)
+        {
+            MainLight.intensity = (float)i / (float)intTotal;
+            yield return new WaitForSeconds(0.003f);
+        }
+
+        for (int i = intTotal; i > 0; i--)
+        {
+            MainLight.intensity = (float)i / (float)intTotal;
+            yield return new WaitForSeconds(0.003f);
+        }
+        
+        MainLight.intensity = 0.0f;
+        Debug.Log("turning light down");
+        yield return 0;
+        
+    }
 
 	public void UpdateShipEnergyUse()
 	{
