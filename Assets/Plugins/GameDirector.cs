@@ -8,7 +8,7 @@ public class GameDirector : MonoBehaviour {
 
     public Neil neil = null;
     public Ship ship = null;
-    public List<GameObject> beacons = null;
+    public List<GameObject> beacons = new List<GameObject>();
    
 
     void Awake()
@@ -20,32 +20,51 @@ public class GameDirector : MonoBehaviour {
 	{
 		if(Input.GetButton("Fire1"))
 		{
-			print ("ball");
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
 			if (Physics.Raycast(ray, out hit, 100))
 			{
-				print ("sack");
-				print (hit.point);
-				Debug.DrawLine(ray.origin, hit.point);
-				if(neil.neilControlState == NeilControlStates.PlantingBeacon)
+				if(hit.collider.transform.tag == "Terrain")
 				{
-					neil.PlaceBeacon(GetNearestBeaconLocation(hit.point), hit.point);
+					if(neil.neilControlState == NeilControlStates.InShip)
+					{
+						neil.PlaceBeacon(GetNearestBeaconLocation(hit.point), hit.point);
+						print (hit.point);
+					}
+					else if(neil.neilControlState == NeilControlStates.FreeMove)
+					{
+						neil.WalkToSpot(hit.point);
+					}
 				}
-				else if(neil.neilControlState == NeilControlStates.FreeMove)
+				else if(hit.collider.transform.name == "Ship")
 				{
-					neil.WalkToSpot(hit.point);
+					if(neil.neilControlState == NeilControlStates.FreeMove)
+					{
+						neil.WalkToSpot(hit.collider.transform.position);
+					}
 				}
 			}
-				
 		}
 			
 	}
 
 	public Vector3 GetNearestBeaconLocation(Vector3 beaconPlacement)
 	{
-		Vector3 teleportLocation;
-		teleportLocation = new Vector3(5, 2, 5);
+		Vector3 teleportLocation = ship.transform.position;
+		float distanceToPlacement = (beaconPlacement - ship.transform.position).magnitude;
+		if(beacons.Count > 0)
+		{
+			foreach(GameObject beacon in beacons)
+			{
+				float tempDistance = (beacon.transform.position - beaconPlacement).magnitude;
+				if (tempDistance < distanceToPlacement)
+				{
+					distanceToPlacement = tempDistance;
+					teleportLocation = beacon.transform.position;
+				}
+			}
+		}
+		teleportLocation.y = 1.583f;
 		return teleportLocation;
 	}
 

@@ -14,20 +14,28 @@ public class Neil : MonoBehaviour, ITargetable {
 	public NeilStates neilState = NeilStates.InShip;
 	public NeilControlStates neilControlState = NeilControlStates.InShip;
 
+	public GameDirector gameDirector;
 
 	public delegate void MyEventHandler();
 	public event MyEventHandler radarEvent;
 
 	// Use this for initialization
 	void Start () {
+		gameDirector = GameDirector.instance;
 		movementSpeed = 0.25f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		RaycastHit hit;
+		if (Physics.Raycast(transform.position, -Vector3.up, out hit))
+		{
+			float distanceToGround = hit.distance;
+			//this.transform.position = new Vector3(this.transform.position.x, hit.point.y + 1.5f, this.transform.position.z);
+		}
+			
 	}
-
+	
 	#region Accessor Methods
 	public float Health {
 		get {
@@ -81,17 +89,24 @@ public class Neil : MonoBehaviour, ITargetable {
 
 	public void PlaceBeacon(Vector3 teleportLocation, Vector3 beaconLocation)
 	{
-		beaconLocation += new Vector3(0, transform.position.y, 0);
 		//teleport to nearest beacon
 		transform.position = teleportLocation;
 		neilControlState = NeilControlStates.PlantingBeacon;
 		//auto walk to beacon spot
 		StopAllCoroutines();
-		StartCoroutine(WalkToWayPoint(beaconLocation));
-		//plant beacon
-		GameObject clone = (GameObject) Instantiate(beacon);
+		StartCoroutine(PlaceBeaconRoutine(beaconLocation));
+	}
 
-		//change states
+	private IEnumerator PlaceBeaconRoutine(Vector3 beaconLocation)
+	{
+		while((transform.position - beaconLocation).magnitude >= 2.0f)
+		{
+			this.transform.position = Vector3.Lerp(this.transform.position, beaconLocation, Time.deltaTime * movementSpeed);
+			yield return new WaitForSeconds(0.01f);
+		}
+		GameObject clone = (GameObject) Instantiate(beacon, beaconLocation, Quaternion.identity);
+		gameDirector.beacons.Add(clone);
+		neilState = NeilStates.InLight;
 		neilControlState = NeilControlStates.FreeMove;
 	}
 
@@ -105,7 +120,7 @@ public class Neil : MonoBehaviour, ITargetable {
 			StartCoroutine(WalkToWayPoint(spot));
 		}
 	}
-
+	
 	public IEnumerator WalkToWayPoint(Vector3 wayPoint)
 	{
 		while((transform.position - wayPoint).magnitude >= 0.01f)
