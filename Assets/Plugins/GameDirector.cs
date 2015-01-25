@@ -65,7 +65,7 @@ public class GameDirector : MonoBehaviour {
     /// </summary>
     private void ComputeWave()
     {
-        Debug.Log(string.Format("time {0}  next wave {1}", Time.realtimeSinceStartup, fltNextWave));
+        //Debug.Log(string.Format("time {0}  next wave {1}", Time.realtimeSinceStartup, fltNextWave));
         if (Time.realtimeSinceStartup > fltNextWave)
         { 
             //trigger a wave
