@@ -29,46 +29,55 @@ public class GameDirector : MonoBehaviour {
     /// </summary>
 	void Update()
 	{
-		if(Input.GetButton("Fire1"))
-		{
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hit;
-			if (Physics.Raycast(ray, out hit, 100))
-			{
-				if(hit.collider.transform.tag == "Terrain")
-				{
-					if(neil.neilControlState == NeilControlStates.InShip)
-					{
-						neil.PlaceBeacon(GetNearestBeaconLocation(hit.point), hit.point);
-					}
-					else if(neil.neilControlState == NeilControlStates.FreeMove)
-					{
-						neil.WalkToSpot(hit.point);
-					}
-				}
-				else if(hit.collider.transform.name == "Ship")
-				{
-					if(neil.neilControlState == NeilControlStates.FreeMove)
-					{
-						neil.WalkToSpot(hit.collider.transform.position);
-					}
-				}
-				else if(hit.collider.transform.parent.transform.tag == "Beacon")
-				{
-					Beacon beacon = hit.collider.transform.parent.GetComponent<Beacon>();
-					beacon.LightOn = !beacon.LightOn;
-				}
-			}
-		}
+        try
+        {
 
-        ComputeWave();
+		    if(Input.GetButton("Fire1"))
+		    {
+			    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			    RaycastHit hit;
+			    if (Physics.Raycast(ray, out hit, 100))
+			    {
+				    if(hit.collider.transform.tag == "Terrain")
+				    {
+					    if(neil.neilControlState == NeilControlStates.InShip)
+					    {
+						    neil.PlaceBeacon(GetNearestBeaconLocation(hit.point), hit.point);
+					    }
+					    else if(neil.neilControlState == NeilControlStates.FreeMove)
+					    {
+						    neil.WalkToSpot(hit.point);
+					    }
+				    }
+				    else if(hit.collider.transform.name == "Ship")
+				    {
+					    if(neil.neilControlState == NeilControlStates.FreeMove)
+					    {
+						    neil.WalkToSpot(hit.collider.transform.position);
+					    }
+				    }
+				    else if(hit.collider.transform.parent.transform.tag == "Beacon")
+				    {
+					    Beacon beacon = hit.collider.transform.parent.GetComponent<Beacon>();
+					    beacon.LightOn = !beacon.LightOn;
+				    }
+			    }
+		    }
 
-		CheckForLoseCondition();
-		if(CheckForWinCondition())
-		{
-			print ("you win");
-			Time.timeScale = 0.0f;
-		}
+            ComputeWave();
+
+		    CheckForLoseCondition();
+		    if(CheckForWinCondition())
+		    {
+			    print ("you win");
+			    Time.timeScale = 0.0f;
+		    }
+        }
+        catch (System.Exception ex)
+        {
+
+
+        }
 			
 	}
 

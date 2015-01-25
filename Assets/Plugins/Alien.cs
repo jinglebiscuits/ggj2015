@@ -68,7 +68,7 @@ public class Alien : MonoBehaviour {
         if (beacons != null) strDisplay += "beacons : " + beacons.Length;
         if (closestBeacon != null) strDisplay += " closestBeacon : " + closestBeacon.transform.position.ToString();
 
-        GUI.Label(new Rect(0, 0, Screen.width, Screen.height), strDisplay);
+        //GUI.Label(new Rect(0, 0, Screen.width, Screen.height), strDisplay);
     
     }
 
