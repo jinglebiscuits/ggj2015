@@ -48,7 +48,7 @@ public class Ship : MonoBehaviour, ITargetable {
 		if(other.gameObject.transform.tag == "Player")
 		{
 			print ("oh yeah");
-			GameObject neil = other.gameObject.transform.parent.gameObject;
+			GameObject neil = other.gameObject;
 			Neil neilScript = neil.GetComponent<Neil>();
 			neilScript.neilState = NeilStates.InShip;
 			neilScript.neilControlState = NeilControlStates.InShip;

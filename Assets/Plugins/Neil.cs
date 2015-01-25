@@ -27,13 +27,7 @@ public class Neil : MonoBehaviour, ITargetable {
 	
 	// Update is called once per frame
 	void Update () {
-		RaycastHit hit;
-		if (Physics.Raycast(transform.position, -Vector3.up, out hit))
-		{
-			float distanceToGround = hit.distance;
-			//this.transform.position = new Vector3(this.transform.position.x, hit.point.y + 1.5f, this.transform.position.z);
-		}
-			
+		GroundNeil();
 	}
 	
 	#region Accessor Methods
@@ -84,6 +78,17 @@ public class Neil : MonoBehaviour, ITargetable {
 		if(radarEvent != null)
 		{
 			radarEvent();
+		}
+	}
+
+	public void GroundNeil()
+	{
+		int layerMask = 1 << 9;
+		RaycastHit hit;
+		if (Physics.Raycast(transform.position, -Vector3.up, out hit, layerMask))
+		{
+			float distanceToGround = hit.distance;
+			this.transform.position = new Vector3(this.transform.position.x, hit.point.y + 0.4f, this.transform.position.z);
 		}
 	}
 
