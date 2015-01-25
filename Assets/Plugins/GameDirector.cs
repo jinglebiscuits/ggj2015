@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// 
+/// </summary>
 public class GameDirector : MonoBehaviour {
 
     public static GameDirector instance = null;
@@ -9,13 +12,21 @@ public class GameDirector : MonoBehaviour {
     public Neil neil = null;
     public Ship ship = null;
     public List<GameObject> beacons = new List<GameObject>();
+    public GameObject[] Aliens = null;
+    public float fltWaveTime = 15.0f;
+    public float fltNextWave = 0;
    
-
+    /// <summary>
+    /// 
+    /// </summary>
     void Awake()
     {
         instance = this;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
 	void Update()
 	{
 		if(Input.GetButton("Fire1"))
@@ -44,9 +55,44 @@ public class GameDirector : MonoBehaviour {
 				}
 			}
 		}
+
+        ComputeWave();
 			
 	}
 
+    /// <summary>
+    /// 
+    /// </summary>
+    private void ComputeWave()
+    {
+        Debug.Log(string.Format("time {0}  next wave {1}", Time.realtimeSinceStartup, fltNextWave));
+        if (Time.realtimeSinceStartup > fltNextWave)
+        { 
+            //trigger a wave
+            StartWave();
+            //set time to next wave
+            fltNextWave = Time.realtimeSinceStartup + fltWaveTime;
+        }
+    
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void StartWave()
+    {
+        foreach (GameObject alien in Aliens)
+        {
+            Alien alienScript = alien.GetComponent<Alien>();
+            alienScript.StartWave();
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="beaconPlacement"></param>
+    /// <returns></returns>
 	public Vector3 GetNearestBeaconLocation(Vector3 beaconPlacement)
 	{
 		Vector3 teleportLocation = ship.transform.position;

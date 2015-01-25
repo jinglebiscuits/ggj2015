@@ -106,11 +106,17 @@ public class Neil : MonoBehaviour, ITargetable {
 
 	private IEnumerator PlaceBeaconRoutine(Vector3 beaconLocation)
 	{
-		while((transform.position - beaconLocation).magnitude >= 2.0f)
-		{
-			this.transform.position = Vector3.Lerp(this.transform.position, beaconLocation, Time.deltaTime * movementSpeed);
-			yield return new WaitForSeconds(0.01f);
-		}
+        //while((transform.position - beaconLocation).magnitude >= 0.5f)
+        //{
+        //    this.transform.position = Vector3.Lerp(this.transform.position, beaconLocation, Time.deltaTime * movementSpeed);
+        //    yield return new WaitForSeconds(0.01f);
+        //}
+        for (int i = 0; i < 100; i++)
+        {
+            float fltDone = (float)i / 100.0f;
+            this.transform.position = Vector3.Lerp(this.transform.position, beaconLocation, fltDone);
+            yield return new WaitForSeconds(Time.deltaTime * movementSpeed);
+        }
 		GameObject clone = (GameObject) Instantiate(beacon, beaconLocation, Quaternion.identity);
 		gameDirector.beacons.Add(clone);
 		neilState = NeilStates.InLight;
@@ -126,15 +132,24 @@ public class Neil : MonoBehaviour, ITargetable {
 			StopAllCoroutines();
 			StartCoroutine(WalkToWayPoint(spot));
 		}
+
 	}
 	
 	public IEnumerator WalkToWayPoint(Vector3 wayPoint)
 	{
-		while((transform.position - wayPoint).magnitude >= 0.01f)
-		{
-			this.transform.position = Vector3.Lerp(this.transform.position, wayPoint, Time.deltaTime * movementSpeed);
-			yield return new WaitForSeconds(0.01f);
-		}
+        //while((transform.position - wayPoint).magnitude >= 0.01f)
+        //{
+        //    this.transform.position = Vector3.Lerp(this.transform.position, wayPoint, Time.deltaTime * movementSpeed);
+        //    yield return new WaitForSeconds(0.01f);
+        //}
+
+        for (int i = 0; i < 100; i++)
+        {
+            float fltDone = (float)i / 100.0f;
+            this.transform.position = Vector3.Lerp(this.transform.position, wayPoint, fltDone);
+            yield return new WaitForSeconds(Time.deltaTime * movementSpeed);
+        }
+
 	}
 
 	public void ToggleBeacon(Beacon beacon)

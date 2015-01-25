@@ -77,6 +77,7 @@ public class Alien : MonoBehaviour {
     /// </summary>
     public void StartWave()
     {
+        GetBeaconList();
         fltHealth = 100.0f;
         Behavior = enAlienBehaviors.Attack;
     }
