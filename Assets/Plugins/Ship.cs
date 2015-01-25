@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,6 +9,7 @@ public class Ship : MonoBehaviour, ITargetable {
 	public List<GameObject> beacons = new List<GameObject>();
 	public Light light;
 	private float energy;
+	public Slider energyView;
 	private float energyUsePerSecond;
 	private float maxEnergyUsePerSecond;
 	private List<ShipSection> shipSections = new List<ShipSection>();
@@ -16,12 +18,12 @@ public class Ship : MonoBehaviour, ITargetable {
 
 	// Use this for initialization
 	void Start () {
-	
+		energyView.maxValue = energy;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
 
 	public float Health {
