@@ -18,6 +18,9 @@ public class GameDirector : MonoBehaviour {
     public Light MainLight = null;
     public bool blnFoundArmory = false;
     public bool blnFoundMedStation = false;
+    public bool blnWin = false;
+    public Material matArmoryMaterial = null;
+    public Material matMedSectionMaterial = null;
    
     /// <summary>
     /// 
@@ -30,12 +33,30 @@ public class GameDirector : MonoBehaviour {
     public void FoundShipPart(string strName)
     {
         Debug.Log("found ship part " + strName);
-        if (strName == "ArmorySection") blnFoundArmory = true;
-        if (strName == "MedicalSection") blnFoundMedStation = true;
+        if (strName == "ArmorySection")
+        {
+            blnFoundArmory = true;
+            matArmoryMaterial.SetColor("_MainColor", Color.white);
+        }
+
+        if (strName == "MedicalSection")
+        {
+            blnFoundMedStation = true;
+            matArmoryMaterial.SetColor("_MainColor", Color.white);
+        }
+
         if (blnFoundArmory == true && blnFoundMedStation == true)
         {
             Debug.Log("you win");
+            blnWin = true;
+            StartCoroutine(LoadWinScene());
         }
+    }
+
+    private IEnumerator LoadWinScene()
+    {
+        yield return new WaitForSeconds(3.0f);
+        Application.LoadLevel("Win");
     }
 
     /// <summary>
