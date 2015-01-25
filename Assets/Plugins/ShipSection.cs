@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ShipSection : MonoBehaviour {
 
-	private bool isHookedUp;
+	public bool isHookedUp = false;
 
 	// Use this for initialization
 	void Start () {
@@ -21,6 +21,8 @@ public class ShipSection : MonoBehaviour {
 		}
 		set {
 			isHookedUp = value;
+			if(isHookedUp)
+				Destroy(this.gameObject);
 		}
 	}
 }

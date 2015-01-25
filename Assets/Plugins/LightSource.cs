@@ -32,6 +32,7 @@ public class LightSource : MonoBehaviour {
 		}
 		set {
 			intensity = value;
+			print (value + " " + this.GetComponent<Light>().intensity);
 			this.GetComponent<Light>().intensity = intensity;
 		}
 	}

@@ -8,11 +8,11 @@ public class Ship : MonoBehaviour, ITargetable {
 	private float health;
 	public List<GameObject> beacons = new List<GameObject>();
 	public Light light;
-	private float energy;
+	public float energy = 1000.0f;
 	public Slider energyView;
-	private float energyUsePerSecond;
+	public float energyUsePerSecond = 10.0f;
 	private float maxEnergyUsePerSecond;
-	private List<ShipSection> shipSections = new List<ShipSection>();
+	public List<ShipSection> shipSections = new List<ShipSection>();
 	private Radar radar;
 
 
@@ -23,7 +23,8 @@ public class Ship : MonoBehaviour, ITargetable {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		energy -= energyUsePerSecond * Time.deltaTime;
+		energyView.value = energy;
 	}
 
 	public float Health {

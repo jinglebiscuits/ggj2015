@@ -53,11 +53,28 @@ public class GameDirector : MonoBehaviour {
 						neil.WalkToSpot(hit.collider.transform.position);
 					}
 				}
+				else if(hit.collider.transform.parent.transform.tag == "Beacon")
+				{
+					Beacon beacon = hit.collider.transform.parent.GetComponent<Beacon>();
+					beacon.LightOn = !beacon.LightOn;
+				}
 			}
 		}
 
         ComputeWave();
+
+		CheckForLoseCondition();
+		if(CheckForWinCondition())
+		{
+			print ("you win");
+			Time.timeScale = 0.0f;
+		}
 			
+	}
+
+	public void UpdateShipEnergyUse()
+	{
+		ship.energyUsePerSecond += 5.0f;
 	}
 
     /// <summary>
@@ -113,4 +130,22 @@ public class GameDirector : MonoBehaviour {
 		return teleportLocation;
 	}
 
+	public void CheckForLoseCondition()
+	{
+		if(ship.energy <= 0.0f)
+		{
+			print ("you lost buddy");
+			Time.timeScale = 0;
+		}
+	}
+
+	public bool CheckForWinCondition()
+	{
+		foreach(ShipSection shipSection in ship.shipSections)
+		{
+			if(!shipSection.IsHookedUp)
+				return false;
+		}
+		return true;
+	}
 }
