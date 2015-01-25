@@ -106,7 +106,7 @@ public class Neil : MonoBehaviour, ITargetable {
 
 	private IEnumerator PlaceBeaconRoutine(Vector3 beaconLocation)
 	{
-		body.GetComponent<NeilAnimation>().Speed = 1;
+		//body.GetComponent<NeilAnimation>().Speed = 1;
         //while((transform.position - beaconLocation).magnitude >= 0.5f)
         //{
         //    this.transform.position = Vector3.Lerp(this.transform.position, beaconLocation, Time.deltaTime * movementSpeed);
@@ -118,7 +118,7 @@ public class Neil : MonoBehaviour, ITargetable {
             this.transform.position = Vector3.Lerp(this.transform.position, beaconLocation, fltDone);
             yield return new WaitForSeconds(Time.deltaTime * movementSpeed);
         }
-		body.GetComponent<NeilAnimation>().Speed = 0;
+		//body.GetComponent<NeilAnimation>().Speed = 0;
 		GameObject clone = (GameObject) Instantiate(beacon, beaconLocation, Quaternion.identity);
 		gameDirector.beacons.Add(clone);
 		gameDirector.UpdateShipEnergyUse();
@@ -128,16 +128,15 @@ public class Neil : MonoBehaviour, ITargetable {
 
 	public void WalkToSpot(Vector3 spot)
 	{
-		print ("test");
 		spot += new Vector3(0, transform.position.y, 0);
-		body.GetComponent<NeilAnimation>().Speed = 1;
+		//body.GetComponent<NeilAnimation>().Speed = 1;
 		//move to spot
 		if(neilControlState == NeilControlStates.FreeMove)
 		{
 			StopAllCoroutines();
 			StartCoroutine(WalkToWayPoint(spot));
 		}
-		body.GetComponent<NeilAnimation>().Speed = 0;
+		//body.GetComponent<NeilAnimation>().Speed = 0;
 	}
 	
 	public IEnumerator WalkToWayPoint(Vector3 wayPoint)
