@@ -13,17 +13,19 @@ public class ConnectSection : MonoBehaviour {
 	
 	}
 
-	void OnTriggerEnter(Collider other)
-	{
-		print (other.transform.name);
-		if(other.transform.tag == "Selection")
-		{
-			other.transform.GetComponent<ShipSection>().IsHookedUp = true;
-		}
-	}
+    //void OnTriggerEnter(Collider other)
+    //{
+    //    print("found " + gameObject.name);
+    //    if(other.transform.tag == "Selection")
+    //    {
+    //        other.transform.GetComponent<ShipSection>().IsHookedUp = true;
+    //    }
+    //}
 
-	void OnTriggerStay(Collider other)
-	{
-		print (other.transform.name + "stay");
-	}
+    //void OnTriggerStay(Collider other)
+    //{
+    //    //print (other.transform.parent.name + " stay");
+        
+    //    //GameDirector.instance.FoundShipPart();
+    //}
 }

@@ -16,6 +16,8 @@ public class GameDirector : MonoBehaviour {
     public float fltWaveTime = 15.0f;
     public float fltNextWave = 0;
     public Light MainLight = null;
+    public bool blnFoundArmory = false;
+    public bool blnFoundMedStation = false;
    
     /// <summary>
     /// 
@@ -25,6 +27,17 @@ public class GameDirector : MonoBehaviour {
         instance = this;
     }
 
+    public void FoundShipPart(string strName)
+    {
+        Debug.Log("found ship part " + strName);
+        if (strName == "ArmorySection") blnFoundArmory = true;
+        if (strName == "MedicalSection") blnFoundMedStation = true;
+        if (blnFoundArmory == true && blnFoundMedStation == true)
+        {
+            Debug.Log("you win");
+        }
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -32,6 +45,7 @@ public class GameDirector : MonoBehaviour {
 	{
         try
         {
+            if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) return;
 
 		    if(Input.GetButton("Fire1"))
 		    {
