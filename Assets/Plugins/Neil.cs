@@ -106,7 +106,7 @@ public class Neil : MonoBehaviour, ITargetable {
 
 	private IEnumerator PlaceBeaconRoutine(Vector3 beaconLocation)
 	{
-		while((transform.position - beaconLocation).magnitude >= 2.0f)
+		while((transform.position - beaconLocation).magnitude >= 1.0f)
 		{
 			this.transform.position = Vector3.Lerp(this.transform.position, beaconLocation, Time.deltaTime * movementSpeed);
 			yield return new WaitForSeconds(0.01f);
