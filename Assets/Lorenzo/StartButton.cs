@@ -19,7 +19,7 @@ public class StartButton : MonoBehaviour
 
 		public void StartButtonClick ()
 		{
-				Application.LoadLevel ("Main");
+            Application.LoadLevel("MikesGame2");
 		}
 
 		public void MadeIt ()

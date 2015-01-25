@@ -30,19 +30,27 @@ public class GameDirector : MonoBehaviour {
         instance = this;
     }
 
+    void Start()
+    {
+        matArmoryMaterial.SetColor("_Color", Color.black);
+        matMedSectionMaterial.SetColor("_Color", Color.black);
+    }
+
     public void FoundShipPart(string strName)
     {
         Debug.Log("found ship part " + strName);
         if (strName == "ArmorySection")
         {
             blnFoundArmory = true;
-            matArmoryMaterial.SetColor("_MainColor", Color.white);
+            matArmoryMaterial.SetColor("_Color", Color.white);
+            Debug.Log(matArmoryMaterial.GetColor("_Color").ToString());
         }
 
         if (strName == "MedicalSection")
         {
             blnFoundMedStation = true;
-            matArmoryMaterial.SetColor("_MainColor", Color.white);
+            matMedSectionMaterial.SetColor("_Color", Color.white);
+            Debug.Log(matMedSectionMaterial.GetColor("_Color").ToString());
         }
 
         if (blnFoundArmory == true && blnFoundMedStation == true)
