@@ -106,25 +106,6 @@ public class Neil : MonoBehaviour, ITargetable {
 
 	private IEnumerator PlaceBeaconRoutine(Vector3 beaconLocation)
 	{
-<<<<<<< HEAD
-        //while((transform.position - beaconLocation).magnitude >= 0.5f)
-        //{
-        //    this.transform.position = Vector3.Lerp(this.transform.position, beaconLocation, Time.deltaTime * movementSpeed);
-        //    yield return new WaitForSeconds(0.01f);
-        //}
-        for (int i = 0; i < 100; i++)
-        {
-            float fltDone = (float)i / 100.0f;
-            this.transform.position = Vector3.Lerp(this.transform.position, beaconLocation, fltDone);
-            yield return new WaitForSeconds(Time.deltaTime * movementSpeed);
-        }
-=======
-		while((transform.position - beaconLocation).magnitude >= 1.0f)
-		{
-			this.transform.position = Vector3.Lerp(this.transform.position, beaconLocation, Time.deltaTime * movementSpeed);
-			yield return new WaitForSeconds(0.01f);
-		}
->>>>>>> b6e87ffb198feb3f825efcb308b001feb4b2296e
 		GameObject clone = (GameObject) Instantiate(beacon, beaconLocation, Quaternion.identity);
 		gameDirector.beacons.Add(clone);
 		neilState = NeilStates.InLight;
