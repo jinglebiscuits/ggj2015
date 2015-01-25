@@ -29,7 +29,6 @@ public class GameDirector : MonoBehaviour {
 					if(neil.neilControlState == NeilControlStates.InShip)
 					{
 						neil.PlaceBeacon(GetNearestBeaconLocation(hit.point), hit.point);
-						print (hit.point);
 					}
 					else if(neil.neilControlState == NeilControlStates.FreeMove)
 					{

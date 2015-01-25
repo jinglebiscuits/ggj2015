@@ -14,6 +14,8 @@ public class Neil : MonoBehaviour, ITargetable {
 	public NeilStates neilState = NeilStates.InShip;
 	public NeilControlStates neilControlState = NeilControlStates.InShip;
 
+	public GameObject body;
+
 	public GameDirector gameDirector;
 
 	public delegate void MyEventHandler();

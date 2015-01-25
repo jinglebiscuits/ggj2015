@@ -42,18 +42,4 @@ public class Ship : MonoBehaviour, ITargetable {
 	{
 		energy += fuel;
 	}
-
-	void OnTriggerEnter(Collider other) {
-		print (other.gameObject.transform.name);
-		if(other.gameObject.transform.tag == "Player")
-		{
-			print ("oh yeah");
-			GameObject neil = other.gameObject;
-			Neil neilScript = neil.GetComponent<Neil>();
-			neilScript.neilState = NeilStates.InShip;
-			neilScript.neilControlState = NeilControlStates.InShip;
-			neil.transform.position = this.transform.position;
-		}
-		//Destroy(other.gameObject);
-	}
 }
