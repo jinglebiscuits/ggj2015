@@ -15,7 +15,7 @@ public class SoundManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		ship = GameObject.Find("Ship").GetComponent<Ship>();
+		//ship = GameObject.Find("Ship").GetComponent<Ship>();
 
 		for(int i = 0; i < 9; i++)
 		{
