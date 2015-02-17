@@ -7,15 +7,18 @@ public class SoundManager : MonoBehaviour {
 	public GameObject audioSource;
 	private List<GameObject> audioSources = new List<GameObject>();
 	public List<AudioClip> audioClips = new List<AudioClip>();
+	public List<AudioClip> neilMove = new List<AudioClip>();
 	public AudioClip gameOver;
 	public AudioClip actionBass;
 	public Ship ship;
 	private int tension = 0;
-
+	public Neil neil;
 	// Use this for initialization
 	void Start () {
 
 		//ship = GameObject.Find("Ship").GetComponent<Ship>();
+		neil = GameObject.Find ("Neil").GetComponent<Neil>();
+		//neil.moveEvent += RegisterMove;
 
 		for(int i = 0; i < 9; i++)
 		{
@@ -222,5 +225,11 @@ public class SoundManager : MonoBehaviour {
 			audioSource.volume -= 0.1f;
 			yield return new WaitForSeconds(0.4f);
 		}
+	}
+
+	public void RegisterMove()
+	{
+		audioSources[8].GetComponent<AudioSource>().clip = neilMove[Random.Range(0, neilMove.Count)];
+		audioSources[8].GetComponent<AudioSource>().Play();
 	}
 }

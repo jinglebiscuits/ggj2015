@@ -84,6 +84,7 @@ public class GameDirector : MonoBehaviour {
 			    {
 				    if(hit.collider.transform.tag == "Terrain")
 				    {
+						print ("jedi");
 					    if(neil.neilControlState == NeilControlStates.InShip)
 					    {
 						    neil.PlaceBeacon(GetNearestBeaconLocation(hit.point), hit.point);
