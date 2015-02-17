@@ -20,6 +20,7 @@ public class Neil : MonoBehaviour, ITargetable {
 
 	public delegate void MyEventHandler();
 	public event MyEventHandler radarEvent;
+	//public event MyEventHandler moveEvent;
 
 	// Use this for initialization
 	void Start () {
@@ -112,6 +113,7 @@ public class Neil : MonoBehaviour, ITargetable {
         //    this.transform.position = Vector3.Lerp(this.transform.position, beaconLocation, Time.deltaTime * movementSpeed);
         //    yield return new WaitForSeconds(0.01f);
         //}
+//		moveEvent();
         for (int i = 0; i < 100; i++)
         {
             float fltDone = (float)i / 100.0f;
@@ -130,6 +132,7 @@ public class Neil : MonoBehaviour, ITargetable {
 	{
 		spot += new Vector3(0, transform.position.y, 0);
 		//body.GetComponent<NeilAnimation>().Speed = 1;
+		//moveEvent();
 		//move to spot
 		if(neilControlState == NeilControlStates.FreeMove)
 		{
@@ -146,7 +149,7 @@ public class Neil : MonoBehaviour, ITargetable {
         //    this.transform.position = Vector3.Lerp(this.transform.position, wayPoint, Time.deltaTime * movementSpeed);
         //    yield return new WaitForSeconds(0.01f);
         //}
-
+		print ("walk to way point");
         for (int i = 0; i < 100; i++)
         {
             float fltDone = (float)i / 100.0f;
