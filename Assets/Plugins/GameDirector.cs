@@ -87,18 +87,25 @@ public class GameDirector : MonoBehaviour {
 						print ("jedi");
 					    if(neil.neilControlState == NeilControlStates.InShip)
 					    {
-						    neil.PlaceBeacon(GetNearestBeaconLocation(hit.point), hit.point);
+							neil.transform.position = GetNearestBeaconLocation(hit.point);
+							neil.wayPoint = hit.point;
+							neil.neilControlState = NeilControlStates.PlantingBeacon;
+						    //neil.PlaceBeacon(GetNearestBeaconLocation(hit.point), hit.point);
 					    }
-					    else if(neil.neilControlState == NeilControlStates.FreeMove)
+					    else if(neil.neilControlState == NeilControlStates.FreeMoveStanding)
 					    {
-						    neil.WalkToSpot(hit.point);
+							neil.wayPoint = hit.point;
+							neil.neilControlState = NeilControlStates.FreeMoveMoving;
+//						    neil.WalkToSpot(hit.point);
 					    }
 				    }
 				    else if(hit.collider.transform.name == "Ship")
 				    {
-					    if(neil.neilControlState == NeilControlStates.FreeMove)
+					    if(neil.neilControlState == NeilControlStates.FreeMoveStanding)
 					    {
-						    neil.WalkToSpot(hit.collider.transform.position);
+							neil.wayPoint = hit.collider.transform.position;
+							neil.neilControlState = NeilControlStates.FreeMoveMoving;
+//						    neil.WalkToSpot(hit.collider.transform.position);
 					    }
 				    }
 				    else if(hit.collider.transform.parent.transform.tag == "Beacon")

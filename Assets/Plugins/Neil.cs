@@ -25,12 +25,35 @@ public class Neil : MonoBehaviour, ITargetable {
 	// Use this for initialization
 	void Start () {
 		gameDirector = GameDirector.instance;
-		movementSpeed = 0.25f;
+		movementSpeed = 1.0f;
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		GroundNeil();
+		if(neilControlState == NeilControlStates.PlantingBeacon)
+		{
+			float step = movementSpeed * Time.deltaTime;
+			transform.position = Vector3.MoveTowards(transform.position, wayPoint, step);
+			if((transform.position - wayPoint).magnitude <= 0.5f)
+			{
+				GameObject clone = (GameObject) Instantiate(beacon, wayPoint, Quaternion.identity);
+				gameDirector.beacons.Add(clone);
+				gameDirector.UpdateShipEnergyUse();
+				neilState = NeilStates.InLight;
+				neilControlState = NeilControlStates.FreeMoveStanding;
+			}
+		}
+
+		if(neilControlState == NeilControlStates.FreeMoveMoving)
+		{
+			float step = movementSpeed * Time.deltaTime;
+			transform.position = Vector3.MoveTowards(transform.position, wayPoint, step);
+			if((transform.position - wayPoint).magnitude <= 0.5f)
+			{
+				neilControlState = NeilControlStates.FreeMoveStanding;
+			}
+		}
 	}
 	
 	#region Accessor Methods
@@ -95,70 +118,6 @@ public class Neil : MonoBehaviour, ITargetable {
 		}
 	}
 
-	public void PlaceBeacon(Vector3 teleportLocation, Vector3 beaconLocation)
-	{
-		//teleport to nearest beacon
-		transform.position = teleportLocation;
-		neilControlState = NeilControlStates.PlantingBeacon;
-		//auto walk to beacon spot
-		StopAllCoroutines();
-		StartCoroutine(PlaceBeaconRoutine(beaconLocation));
-	}
-
-	private IEnumerator PlaceBeaconRoutine(Vector3 beaconLocation)
-	{
-		//body.GetComponent<NeilAnimation>().Speed = 1;
-        //while((transform.position - beaconLocation).magnitude >= 0.5f)
-        //{
-        //    this.transform.position = Vector3.Lerp(this.transform.position, beaconLocation, Time.deltaTime * movementSpeed);
-        //    yield return new WaitForSeconds(0.01f);
-        //}
-//		moveEvent();
-        for (int i = 0; i < 100; i++)
-        {
-            float fltDone = (float)i / 100.0f;
-            this.transform.position = Vector3.Lerp(this.transform.position, beaconLocation, fltDone);
-            yield return new WaitForSeconds(Time.deltaTime * movementSpeed);
-        }
-		//body.GetComponent<NeilAnimation>().Speed = 0;
-		GameObject clone = (GameObject) Instantiate(beacon, beaconLocation, Quaternion.identity);
-		gameDirector.beacons.Add(clone);
-		gameDirector.UpdateShipEnergyUse();
-		neilState = NeilStates.InLight;
-		neilControlState = NeilControlStates.FreeMove;
-	}
-
-	public void WalkToSpot(Vector3 spot)
-	{
-		spot += new Vector3(0, transform.position.y, 0);
-		//body.GetComponent<NeilAnimation>().Speed = 1;
-		//moveEvent();
-		//move to spot
-		if(neilControlState == NeilControlStates.FreeMove)
-		{
-			StopAllCoroutines();
-			StartCoroutine(WalkToWayPoint(spot));
-		}
-		//body.GetComponent<NeilAnimation>().Speed = 0;
-	}
-	
-	public IEnumerator WalkToWayPoint(Vector3 wayPoint)
-	{
-        //while((transform.position - wayPoint).magnitude >= 0.01f)
-        //{
-        //    this.transform.position = Vector3.Lerp(this.transform.position, wayPoint, Time.deltaTime * movementSpeed);
-        //    yield return new WaitForSeconds(0.01f);
-        //}
-		print ("walk to way point");
-        for (int i = 0; i < 100; i++)
-        {
-            float fltDone = (float)i / 100.0f;
-            this.transform.position = Vector3.Lerp(this.transform.position, wayPoint, fltDone);
-            yield return new WaitForSeconds(Time.deltaTime * movementSpeed);
-        }
-
-	}
-
 	public void ToggleBeacon(Beacon beacon)
 	{
 		beacon.LightOn = !beacon.LightOn;
@@ -191,5 +150,6 @@ public enum NeilControlStates
 {
 	InShip,
 	PlantingBeacon,
-	FreeMove
+	FreeMoveMoving,
+	FreeMoveStanding
 }
