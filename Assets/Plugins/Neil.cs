@@ -114,7 +114,7 @@ public class Neil : MonoBehaviour, ITargetable {
 		if (Physics.Raycast(transform.position, -Vector3.up, out hit, layerMask))
 		{
 			float distanceToGround = hit.distance;
-			this.transform.position = new Vector3(this.transform.position.x, hit.point.y + 0.4f, this.transform.position.z);
+			this.transform.position = new Vector3(this.transform.position.x, hit.point.y + 0.0f, this.transform.position.z);
 		}
 	}
 
@@ -136,6 +136,26 @@ public class Neil : MonoBehaviour, ITargetable {
 	public void RefuelShip(Ship ship, FuelCan fuelCan)
 	{
 		ship.Refuel(fuelCan.Fuel);
+	}
+
+	private void OnCollisionEnter(Collision col)
+	{
+		print ("collided with something");
+		if(col.transform.CompareTag("Section"))
+		{
+			print ("collided with Section");
+			if(neilControlState == NeilControlStates.PlantingBeacon)
+			{
+				wayPoint = transform.position;
+			}
+		}
+		else if(col.transform.CompareTag("Ship"))
+		{
+			print ("collided with ship");
+			neilState = NeilStates.InShip;
+			neilControlState = NeilControlStates.InShip;
+			this.transform.position = col.transform.position;
+		}
 	}
 }
 

@@ -48,6 +48,7 @@ public class GameDirector : MonoBehaviour {
 
         if (strName == "MedicalSection")
         {
+			print ("jedi");
             blnFoundMedStation = true;
             matMedSectionMaterial.SetColor("_Color", Color.white);
             Debug.Log(matMedSectionMaterial.GetColor("_Color").ToString());
@@ -80,11 +81,10 @@ public class GameDirector : MonoBehaviour {
 		    {
 			    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			    RaycastHit hit;
-			    if (Physics.Raycast(ray, out hit, 100))
+			    if (Physics.Raycast(ray, out hit, 100, ~(1 << 10)))
 			    {
 				    if(hit.collider.transform.tag == "Terrain")
 				    {
-						print ("jedi");
 					    if(neil.neilControlState == NeilControlStates.InShip)
 					    {
 							neil.transform.position = GetNearestBeaconLocation(hit.point);

@@ -26,10 +26,10 @@ public class ShipSection : MonoBehaviour {
 		}
 	}
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision col)
     {
         Debug.Log("found " + gameObject.name);
-        if (other.gameObject.transform.tag == "Player")
+        if (col.gameObject.transform.tag == "Player")
         {
             GameDirector.instance.FoundShipPart(gameObject.name);
         }
