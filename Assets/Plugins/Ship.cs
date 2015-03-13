@@ -8,7 +8,7 @@ public class Ship : MonoBehaviour, ITargetable {
 	private float health;
 	public List<GameObject> beacons = new List<GameObject>();
 	public Light light;
-	public float energy = 1000.0f;
+	public float energy = 1200.0f;
 	public Slider energyView;
 	public float energyUsePerSecond = 10.0f;
 	private float maxEnergyUsePerSecond;

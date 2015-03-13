@@ -21,6 +21,8 @@ public class GameDirector : MonoBehaviour {
     public bool blnWin = false;
     public Material matArmoryMaterial = null;
     public Material matMedSectionMaterial = null;
+	public GameObject medicalSection;
+	public GameObject armorySection;
    
     /// <summary>
     /// 
@@ -34,6 +36,13 @@ public class GameDirector : MonoBehaviour {
     {
         matArmoryMaterial.SetColor("_Color", Color.black);
         matMedSectionMaterial.SetColor("_Color", Color.black);
+		medicalSection.transform.position = RandomShipPlacement(medicalSection);
+		armorySection.transform.position = RandomShipPlacement(armorySection);
+		while(Vector3.Distance(medicalSection.transform.position, armorySection.transform.position) < 4.0f)
+		{
+			medicalSection.transform.position = RandomShipPlacement(medicalSection);
+			armorySection.transform.position = RandomShipPlacement(armorySection);
+		}
     }
 
     public void FoundShipPart(string strName)
@@ -243,5 +252,17 @@ public class GameDirector : MonoBehaviour {
 				return false;
 		}
 		return true;
+	}
+
+	private Vector3 RandomShipPlacement(GameObject part)
+	{
+		float x, z;
+		float y = part.transform.position.y;
+		x = Random.Range(11.0f, 7.0f);
+		x = x * (Random.Range(0, 2) * 2 - 1);
+		z = Random.Range(11.0f, 7.0f);
+		z = z * (Random.Range(0, 2) * 2 - 1);
+		print (Random.Range(0, 2) * 2 - 1);
+		return new Vector3(x, y, z);
 	}
 }

@@ -5,12 +5,15 @@ public class Beacon : MonoBehaviour, ITargetable {
 
     public Light light;
     public float Health {get; set;}
+	private Ship ship;
 
 	private bool lightOn = true;
 
 	// Use this for initialization
 	void Start () {
         InitBeacon();
+		ship = GameObject.Find("Ship").GetComponent<Ship>();
+		ship.energyUsePerSecond += 5;
 	}
     public void InitBeacon()
     {
@@ -36,6 +39,10 @@ public class Beacon : MonoBehaviour, ITargetable {
 		}
 		set {
 			lightOn = value;
+			if(lightOn)
+				ship.energyUsePerSecond += 5;
+			else
+				ship.energyUsePerSecond -= 5;
 		}
 	}
 

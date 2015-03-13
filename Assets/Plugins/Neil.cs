@@ -39,7 +39,7 @@ public class Neil : MonoBehaviour, ITargetable {
 			{
 				GameObject clone = (GameObject) Instantiate(beacon, wayPoint, Quaternion.identity);
 				gameDirector.beacons.Add(clone);
-				gameDirector.UpdateShipEnergyUse();
+				//gameDirector.UpdateShipEnergyUse();
 				neilState = NeilStates.InLight;
 				neilControlState = NeilControlStates.FreeMoveStanding;
 			}
