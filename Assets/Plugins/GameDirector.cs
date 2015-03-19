@@ -83,6 +83,10 @@ public class GameDirector : MonoBehaviour {
     /// </summary>
 	void Update()
 	{
+		if(ship.energy <= 0)
+		{
+			Application.LoadLevel("Lose");
+		}
         try
         {
             if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) return;

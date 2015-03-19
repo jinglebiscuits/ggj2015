@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Lose : MonoBehaviour {
+public class LoserDirector : MonoBehaviour {
+
+	public string playableScene;
 
 	// Use this for initialization
 	void Start () {
@@ -11,5 +13,10 @@ public class Lose : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	public void Replay()
+	{
+		Application.LoadLevel(playableScene);
 	}
 }
