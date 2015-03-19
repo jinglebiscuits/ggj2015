@@ -11,6 +11,7 @@ public class GameDirector : MonoBehaviour {
 
     public Neil neil = null;
     public Ship ship = null;
+    public GameObject shipLocation = null;
     public List<GameObject> beacons = new List<GameObject>();
     public GameObject[] Aliens = null;
     public float fltWaveTime = 15.0f;

@@ -13,6 +13,7 @@ public class Neil : MonoBehaviour, ITargetable {
 	public GameObject nearestBeacon;
 	public NeilStates neilState = NeilStates.InShip;
 	public NeilControlStates neilControlState = NeilControlStates.InShip;
+    public Material BeaconLineRendererMaterial;
 
 	public GameObject body;
 
@@ -39,6 +40,7 @@ public class Neil : MonoBehaviour, ITargetable {
 			{
 				GameObject clone = (GameObject) Instantiate(beacon, wayPoint, Quaternion.identity);
 				gameDirector.beacons.Add(clone);
+                PlaceLineRenderer();
 				//gameDirector.UpdateShipEnergyUse();
 				neilState = NeilStates.InLight;
 				neilControlState = NeilControlStates.FreeMoveStanding;
@@ -55,6 +57,39 @@ public class Neil : MonoBehaviour, ITargetable {
 			}
 		}
 	}
+
+    private void PlaceLineRenderer()
+    {
+        GameObject pt1 = null;
+        GameObject pt2 = null;
+        if (gameDirector.beacons.Count > 1)
+        {
+            //we have at least 2 beacons
+             pt1 = gameDirector.beacons[gameDirector.beacons.Count - 1];
+             pt2 = gameDirector.beacons[gameDirector.beacons.Count - 2];
+        }
+        else
+        { 
+            //the firest point is the ship
+            pt1 = gameDirector.beacons[gameDirector.beacons.Count - 1];
+            pt2 = gameDirector.shipLocation;
+        }
+        CreateLR(pt1, pt2, BeaconLineRendererMaterial);
+
+    }
+
+    private void CreateLR(GameObject p1, GameObject p2, Material mat)
+    {
+        LineRenderer lr = p1.AddComponent<LineRenderer>();
+
+        lr.material = mat;
+        lr.SetColors(Color.red, Color.green);
+        lr.SetWidth(0.2f, 0.2f);
+        lr.SetVertexCount(2);
+        lr.SetPosition(0, p1.transform.position);
+        lr.SetPosition(1, p2.transform.position);
+    }
+
 	
 	#region Accessor Methods
 	public float Health {
